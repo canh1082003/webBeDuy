@@ -13,8 +13,8 @@ ProductRouter.get("/:id", productController.getProductById);
 ProductRouter.post(
   "/createProduct",
   uploadCloud.single("imgUrl"),
-  productController.postCreateProduct
+  productController.createProduct
 );
-ProductRouter.put("/updateProduct/:id", productController.putUpdateProduct);
-ProductRouter.delete("/deleteProduct/:id", productController.GetDeleteProduct);
+ProductRouter.put("/updateProduct/:id", productController.updateProduct);
+ProductRouter.delete("/deleteProduct/:id", productController.deleteProduct);
 export default ProductRouter;

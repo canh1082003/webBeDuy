@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt";
 class Hashing {
   async hashPassword(plainTextPassword) {
-    console.log("111111111111111111s");
     return await bcrypt.hash(plainTextPassword, 10);
   }
 

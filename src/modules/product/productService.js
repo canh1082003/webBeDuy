@@ -16,7 +16,7 @@ class ProductService {
     const { name, price, description, categoryId } = req.body;
     const imgPath = req.file?.path;
     console.log(imgPath);
-    const newProduct = await productRepo.create({
+    const newProduct = productRepo.create({
       name,
       price,
       description,
@@ -28,9 +28,7 @@ class ProductService {
   async findCategory() {
     return await CategoryRepo.find();
   }
-  async findProductByCategoryId(categoryId) {
-    return await productRepo.find({ where: { categoryId } });
-  }
+
   async updateProduct(id, updatedData) {
     const productUpdate = await productRepo.findOne({ where: { id } });
     if (!productUpdate) {

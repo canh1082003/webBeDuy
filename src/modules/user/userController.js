@@ -4,28 +4,38 @@ import userService from "./userService.js";
 class UserController {
   async register(req, res) {
     const { firstName, lastName, email, password } = req.body;
-    const userExists = await userService.findUserByEmail(email);
-    if (userExists) {
-      return res.status(400).json({
-        message: "user already exists",
+    try {
+      const userExists = await userService.findUserByEmail(email);
+      if (userExists) {
+        return res.status(400).json({
+          message: "user already exists",
+        });
+      }
+      const hashedPassword = await hashing.hashPassword(password);
+      const user = await userService.registerUser({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
+      return res.status(200).json(user);
+    } catch (error) {
+      return res.status(500).json({
+        message: "register error",
       });
     }
-    console.log(await hashing.hashPassword(password));
-    const hashedPassword = await hashing.hashPassword(password);
-    console.log(hashedPassword);
-    const user = await userService.registerUser({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    });
-    return res.status(200).json(user);
   }
   async login(req, res) {
-    const { email, password } = req.body;
+    try {
+      const { email, password } = req.body;
 
-    const user = await userService.login(email, password, res);
-    return res.status(200).json({ message: "Login successfully", user });
+      const user = await userService.login(email, password, res);
+      return res.status(200).json({ message: "Login successfully", user });
+    } catch (error) {
+      return res.status(500).json({
+        message: "login error",
+      });
+    }
   }
 }
 export default new UserController();
