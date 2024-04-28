@@ -6,8 +6,11 @@ class UserController {
     const { firstName, lastName, email, password } = req.body;
     const userExists = await userService.findUserByEmail(email);
     if (userExists) {
-      throw new Error("User already exists");
+      return res.status(400).json({
+        message: "user already exists",
+      });
     }
+    console.log(await hashing.hashPassword(password));
     const hashedPassword = await hashing.hashPassword(password);
     console.log(hashedPassword);
     const user = await userService.registerUser({
@@ -21,8 +24,8 @@ class UserController {
   async login(req, res) {
     const { email, password } = req.body;
 
-    await userService.login(email, password);
-    return res.status(200).json({ message: "Login successfully" });
+    const user = await userService.login(email, password, res);
+    return res.status(200).json({ message: "Login successfully", user });
   }
 }
 export default new UserController();

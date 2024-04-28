@@ -24,7 +24,7 @@ const Product = new EntitySchema({
       length: 255,
       nullable: true,
     },
-    imgUrl: {
+    img_url: {
       type: "varchar",
       length: 200,
       nullable: false,

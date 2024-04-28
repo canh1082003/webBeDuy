@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
@@ -8,7 +9,7 @@ import router from "./routers/router.js";
 import MySQLDatabase from "./databases/MySQLDatabase.js";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cors());
 app.use("/api", router);
 
 app.listen(port, hostName, () => {

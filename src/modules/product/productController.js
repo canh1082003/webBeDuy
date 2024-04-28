@@ -2,7 +2,8 @@ import productService from "./productService.js";
 
 class ProductController {
   async getAllProduct(req, res) {
-    const products = await productService.findAllProducts();
+    const { category } = req.query;
+    const products = await productService.findAllProducts(category);
     return res.status(200).json({
       products,
     });

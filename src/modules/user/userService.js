@@ -17,10 +17,12 @@ class UserService {
     });
     return await userRepo.save(newUser);
   }
-  async login(email, password) {
+  async login(email, password, res) {
     const user = await userRepo.findOne({ where: { email } });
     if (!user) {
-      throw new Error("Email not found");
+      return res.status(400).json({
+        message: "user not found",
+      });
     }
     const isCorrectPassword = await hashing.comparePassword(
       password,

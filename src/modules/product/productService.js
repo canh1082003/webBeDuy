@@ -4,8 +4,8 @@ const productRepo = MySQLDatabase.mysqlDataSource.getRepository("Product");
 const CategoryRepo = MySQLDatabase.mysqlDataSource.getRepository("Category");
 
 class ProductService {
-  async findAllProducts() {
-    return await productRepo.find();
+  async findAllProducts(category) {
+    return await productRepo.find({ where: { categoryId: category } });
   }
   async findProductById(id) {
     const product = await productRepo.findOne({ where: { id } });
