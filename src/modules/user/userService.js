@@ -15,7 +15,7 @@ class UserService {
       email,
       password,
       verifyEmailToken,
-      isVerifyEmail: 1,
+      isVerifyEmail: 0,
       role: "user",
     });
     return await userRepo.save(newUser);
@@ -23,9 +23,7 @@ class UserService {
   async login(email, password, res) {
     const user = await userRepo.findOne({ where: { email } });
     if (!user) {
-      return res.status(400).json({
-        message: "user not found",
-      });
+      throw new Error("User not found");
     }
     const isCorrectPassword = await hashing.comparePassword(
       password,
@@ -39,23 +37,18 @@ class UserService {
   }
   async findAndVerifyUser(verifyEmailToken) {
     const user = await userRepo.findOne({ where: { verifyEmailToken } });
-    if (!user)
-      return {
-        message: `Not found any user with token ${verifyEmailToken}`,
-      };
-
-    if (user.isVerifyEmail)
-      return {
-        message: `Email verify already ${verifyEmailToken}`,
-      };
-    if (user.verifyEmailToken !== verifyEmailToken) {
-      return {
-        message: `Invalid token ${verifyEmailToken}`,
-      };
+    if (!user) {
+      throw new Error("");
     }
 
-    user.isVerifyEmail = true;
-    return await user.save();
+    if (user.isVerifyEmail !== "0") {
+      throw new Error("");
+    }
+    if (user.verifyEmailToken !== String(verifyEmailToken)) {
+      throw new Error("");
+    }
+    user.isVerifyEmail = 1;
+    return await userRepo.save(user);
   }
 }
 

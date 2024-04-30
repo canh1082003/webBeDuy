@@ -1,6 +1,7 @@
 import { verifyToken } from "../utils/jwt.js";
 export const isLogin = (req, res, next) => {
   const token = req?.headers?.authorization?.split(" ")[1];
+
   if (token === undefined) {
     return res
       .status(401)
@@ -19,7 +20,6 @@ export const isLogin = (req, res, next) => {
 };
 
 export const isAdmin = (req, res, next) => {
-  console.log(req.role);
   if (req.role == "admin") {
     next();
   } else {

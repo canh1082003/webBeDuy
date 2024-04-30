@@ -42,12 +42,16 @@ class UserController {
       const { email, password } = req.body;
 
       const user = await userService.login(email, password, res);
+      if (!user.isVerifyEmail) {
+        return res.status(500).json({
+          message: "Not verify yet",
+        });
+      }
       const token = generateToken(user.id, user.role);
       return res
         .status(200)
         .json({ message: "Login successfully", user, token });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         message: "login error",
       });
@@ -56,6 +60,7 @@ class UserController {
   async verifyEmail(req, res) {
     try {
       const { verifyEmailToken } = req.body;
+      console.log(verifyEmailToken);
       await userService.findAndVerifyUser(verifyEmailToken);
       return res.status(200).json({ message: "Verified successfully" });
     } catch (error) {

@@ -9,6 +9,7 @@ class ProductController {
         products,
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: "Get all product error",
       });
@@ -53,11 +54,17 @@ class ProductController {
 
   async updateProduct(req, res) {
     const id = req.params.id;
-    const updatedData = req.body;
+    const { name, price, categoryId } = req.body;
+    console.log(name);
     try {
-      await productService.updateProduct(Number(id), updatedData);
-      return res.status(200).json("update Success");
+      const newProduct = await productService.updateProduct(Number(id), {
+        name,
+        price,
+        categoryId,
+      });
+      return res.status(200).json({ newProduct });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: "updateProduct error",
       });

@@ -15,7 +15,6 @@ class ProductService {
     console.log(process.env.CLOUDINARY_NAME);
     const { name, price, description, categoryId } = req.body;
     const imgPath = req.file?.path;
-    console.log(imgPath);
     const newProduct = productRepo.create({
       name,
       price,

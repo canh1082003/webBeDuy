@@ -37,6 +37,10 @@ const User = new EntitySchema({
       type: "tinyint",
       default: 0,
     },
+    verifyEmailToken: {
+      type: "varchar",
+      length: 255,
+    },
     role: {
       type: "varchar",
       length: 20,
