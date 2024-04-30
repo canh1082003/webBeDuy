@@ -1,14 +1,17 @@
 import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
-export const sendEmail = () => {
+dotenv.config();
+
+export const sendEmail = (option) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     port: 25,
     logger: true,
     debug: true,
     auth: {
-      user: "anhnbk113@gmail.com",
-      pass: "ktvz euex cgsy mcyo",
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
     },
   });
   const mailOptions = {

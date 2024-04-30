@@ -29,6 +29,10 @@ const User = new EntitySchema({
       length: 100,
       nullable: false,
     },
+    verifyEmailToken: {
+      type: "varchar",
+      length: 255,
+    },
     isVerifyEmail: {
       type: "tinyint",
       default: 0,
