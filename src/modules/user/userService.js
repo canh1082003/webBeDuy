@@ -50,6 +50,15 @@ class UserService {
     user.isVerifyEmail = 1;
     return await userRepo.save(user);
   }
+  async updateUser(id, updatedData) {
+    const userUpdate = await userRepo.findOne({ where: { id } });
+    if (!userUpdate) {
+      return res.json({ message: "User not found" });
+    }
+
+    Object.assign(userUpdate, updatedData);
+    return await userRepo.save(userUpdate);
+  }
 }
 
 export default new UserService();

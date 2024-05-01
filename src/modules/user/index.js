@@ -13,4 +13,6 @@ UserRouter.post(
   GetVerifyEmailTokenMiddleWare,
   userController.verifyEmail
 );
+UserRouter.put("/updateUser/:id", userController.UpdateUser);
+
 export default UserRouter;

@@ -68,5 +68,19 @@ class UserController {
       return res.status(500).json({ message: "Verified Failed" });
     }
   }
+  async UpdateUser(req, res) {
+    try {
+      const { id } = req.params;
+      const updatedData = req.body;
+      const updatedUser = await userService.updateUser(id, updatedData);
+      return res.status(200).json({
+        updatedUser,
+        Message: "Update Successful",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ message: "Update Failes" });
+    }
+  }
 }
 export default new UserController();
