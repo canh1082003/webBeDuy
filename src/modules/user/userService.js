@@ -38,15 +38,17 @@ class UserService {
   async findAndVerifyUser(verifyEmailToken) {
     const user = await userRepo.findOne({ where: { verifyEmailToken } });
     if (!user) {
-      throw new Error("");
+      throw new Error("User not found or verification token is invalid");
     }
 
-    if (user.isVerifyEmail !== "0") {
-      throw new Error("");
+    if (user.isVerifyEmail !== 0) {
+      throw new Error("Email already verified");
     }
+
     if (user.verifyEmailToken !== String(verifyEmailToken)) {
-      throw new Error("");
+      throw new Error("Invalid verification token");
     }
+
     user.isVerifyEmail = 1;
     return await userRepo.save(user);
   }

@@ -52,6 +52,7 @@ class UserController {
         .status(200)
         .json({ message: "Login successfully", user, token });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         message: "login error",
       });
